@@ -1,5 +1,10 @@
+import os
 import openpyxl
+from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+
+RTM_FILE = 'Techpack_RTM.xlsx'
+PROPS_DIR = 'properties'
 
 def parse_properties(filepath):
     entries = []
@@ -15,11 +20,17 @@ def parse_properties(filepath):
                     entries.append((key, val))
     return entries
 
-entries = parse_properties('ProductSpecification2.properties') + \
-          parse_properties('ProductSpecificationBOM2.properties')
+entries = parse_properties(f'{PROPS_DIR}/ProductSpecification2.properties') + \
+          parse_properties(f'{PROPS_DIR}/ProductSpecificationBOM2.properties')
 
-wb = openpyxl.load_workbook('Techpack_RTM.xlsx')
-ws = wb.active
+if os.path.exists(RTM_FILE):
+    wb = openpyxl.load_workbook(RTM_FILE)
+    ws = wb.active
+else:
+    wb = Workbook()
+    ws = wb.active
+    ws.title = 'Techpack RTM'
+    ws.append(['Property Key', 'Value'])
 
 thin = Side(style='thin', color='000000')
 border = Border(left=thin, right=thin, top=thin, bottom=thin)
@@ -46,7 +57,7 @@ for i, (key, val) in enumerate(entries, start=2):
 ws.column_dimensions['A'].width = 45
 ws.column_dimensions['B'].width = 65
 
-wb.save('Techpack_RTM.xlsx')
+wb.save(RTM_FILE)
 print(f"Updated Techpack_RTM.xlsx with {len(entries)} entries.")
 for k, v in entries:
     print(f"  {k} => {v}")

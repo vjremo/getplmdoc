@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+
+# Excel outputs (generated at runtime — not tracked)
+*.xlsx
+*.xlsm
+*.xlsb
+# Excel lock/temp files
+~$*
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.*
+
+# User-supplied config files (use properties/sample/*.example as templates)
+properties/*.properties

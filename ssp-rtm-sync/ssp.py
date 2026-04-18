@@ -19,7 +19,7 @@ HEADERS = [
     "Plugin Method",
     "Event",
     "Priority",
-    "By Pass Security",
+    "Bypass Security",
 ]
 
 COL_WIDTHS = [12.5, 22.0, 10.0, 42.0, 24.0, 22.0, 8.0, 16.0]
@@ -33,7 +33,7 @@ def parse_properties(path: Path) -> list[dict]:
             if not line or line.startswith("#"):
                 continue
             key, _, value = line.partition("=")
-            if "LCSPluginManager.eventPlugin." not in key:
+            if not key.startswith("com.lcs.wc.foundation.LCSPluginManager"):
                 continue
             plugin_num = int(key.split(".")[-1])
             parts = dict(p.split("|", 1) for p in value.split("^"))
@@ -63,7 +63,7 @@ def write_rtm(rows: list[dict], out_path: Path, template: Path | None = None) ->
     else:
         wb = openpyxl.Workbook()
         ws = wb.active
-        ws.title = "RTM"
+        ws.title = "SSP RTM"
         ws.append(HEADERS)
         for i, w in enumerate(COL_WIDTHS, start=1):
             ws.column_dimensions[openpyxl.utils.get_column_letter(i)].width = w
@@ -83,21 +83,30 @@ def write_rtm(rows: list[dict], out_path: Path, template: Path | None = None) ->
 
 
 def main():
-    parser = argparse.ArgumentParser(description="LCS plugins.properties → RTM.xlsx")
-    parser.add_argument("input", nargs="?", default="custom.lcs.plugins.properties",
-                        help="Path to .properties file")
-    parser.add_argument("-o", "--output", default="RTM.xlsx", help="Output .xlsx path")
+    parser = argparse.ArgumentParser(description="LCS plugins.properties → SSP_RTM.xlsx")
+    parser.add_argument("input", nargs="*", default=[],
+                        help="Path(s) to .properties file(s). Defaults to all *.properties in cwd.")
+    parser.add_argument("-o", "--output", default="SSP_RTM.xlsx", help="Output .xlsx path")
     parser.add_argument("-t", "--template", default=None,
-                        help="Optional existing RTM.xlsx to use as template")
+                        help="Optional existing SSP_RTM.xlsx to use as template")
     args = parser.parse_args()
 
-    props_path = Path(args.input)
-    if not props_path.exists():
-        sys.exit(f"File not found: {props_path}")
+    inputs = args.input or sorted((Path(".") / "properties").glob("*.properties"))
+    if not inputs:
+        sys.exit("No .properties files found.")
 
-    rows = parse_properties(props_path)
+    rows = []
+    for inp in inputs:
+        props_path = Path(inp)
+        if not props_path.exists():
+            sys.exit(f"File not found: {props_path}")
+        found = parse_properties(props_path)
+        if found:
+            print(f"  {props_path}: {len(found)} LCS plugin entries")
+        rows.extend(found)
+
     if not rows:
-        sys.exit("No plugin entries found in properties file.")
+        sys.exit("No com.lcs.wc.foundation.LCSPluginManager entries found in properties file(s).")
 
     template = Path(args.template) if args.template else None
     write_rtm(rows, Path(args.output), template)

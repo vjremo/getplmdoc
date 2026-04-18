@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt ruff
+
+      # E9xx = syntax/runtime errors, F = pyflakes (undefined names, unused imports)
+      # Style rules intentionally excluded — no existing style config in this repo
+      - name: Lint
+        run: ruff check --select E9,F .
+
+      - name: Syntax check
+        run: |
+          python -m compileall -q \
+            ssp-rtm-sync/ssp.py \
+            jsp-rtm-sync/scripts/jsp.py \
+            csp-rtm-sync/scripts/csp.py \
+            techpack-rtm-sync/techpack.py \
+            run_all_rtm.py
+
+      - name: Set up sample properties
+        run: |
+          for f in properties/sample/*.properties.example; do
+            cp "$f" "properties/$(basename "${f%.example}")"
+          done
+
+      - name: Smoke test - LCS
+        run: |
+          python run_all_rtm.py --only lcs \
+            --lcs-input ssp-rtm-sync/sample/custom.lcs.plugins.properties.example \
+            --lcs-output /tmp/SSP_RTM.xlsx
+
+      - name: Smoke test - JSP
+        run: python run_all_rtm.py --only jsp
+
+      - name: Smoke test - CSP
+        run: |
+          python run_all_rtm.py --only csp \
+            --csp-properties properties/custom.clientSidePluginManagerMappings.properties \
+            --csp-rtm /tmp/CSP_RTM.xlsx
+
+      - name: Smoke test - Techpack
+        run: python run_all_rtm.py --only techpack

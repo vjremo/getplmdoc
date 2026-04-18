@@ -1,8 +1,18 @@
+import os
 import openpyxl
+from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+
+RTM_FILE = 'JSP_RTM.xlsx'
+PROPS_DIR = 'properties'
+URL_MAPPINGS = f'{PROPS_DIR}/custom.urlMappings.properties'
+ACTIVITY_MAPPINGS = f'{PROPS_DIR}/custom.activityControllerMappings.properties'
+CONTROLLER_ALIASES = f'{PROPS_DIR}/custom.controllerAliases.properties'
 
 def parse_properties(filepath):
     entries = []
+    if not os.path.exists(filepath):
+        return entries
     with open(filepath, 'r') as f:
         for line in f:
             line = line.strip()
@@ -13,7 +23,7 @@ def parse_properties(filepath):
                 entries.append((key.strip(), val.strip()))
     return entries
 
-def write_rtm(ws, entries, col_a_width=45):
+def write_rtm(ws, entries):
     thin = Side(style='thin', color='000000')
     border = Border(left=thin, right=thin, top=thin, bottom=thin)
 
@@ -36,15 +46,22 @@ def write_rtm(ws, entries, col_a_width=45):
             cell.alignment = Alignment(vertical='center')
             cell.border = border
 
-    ws.column_dimensions['A'].width = col_a_width
+    ws.column_dimensions['A'].width = 55
     ws.column_dimensions['B'].width = 65
 
-# --- URL Mappings ---
-url_entries = parse_properties('custom.urlMappings.properties')
+def load_or_create_workbook(path):
+    if os.path.exists(path):
+        return openpyxl.load_workbook(path)
+    wb = Workbook()
+    ws = wb.active
+    ws.title = 'Sheet1'
+    ws.append(['Page Key', 'JSP File'])
+    return wb
 
-# --- Activity Controller Mappings (resolved through aliases) ---
-activity_map = dict(parse_properties('custom.activityControllerMappings.properties'))
-alias_map = dict(parse_properties('custom.controllerAliases.properties'))
+url_entries = parse_properties(URL_MAPPINGS)
+
+activity_map = dict(parse_properties(ACTIVITY_MAPPINGS))
+alias_map = dict(parse_properties(CONTROLLER_ALIASES))
 controller_entries = [
     (f"{activity_key},{controller_alias}", alias_map.get(controller_alias, ''))
     for activity_key, controller_alias in activity_map.items()
@@ -52,7 +69,8 @@ controller_entries = [
 
 all_entries = url_entries + controller_entries
 
-wb = openpyxl.load_workbook('JSP_RTM.xlsx')
-write_rtm(wb.active, all_entries, col_a_width=55)
-wb.save('JSP_RTM.xlsx')
-print(f"Updated JSP_RTM.xlsx with {len(all_entries)} entries ({len(url_entries)} URL mappings + {len(controller_entries)} controller mappings).")
+wb = load_or_create_workbook(RTM_FILE)
+write_rtm(wb.active, all_entries)
+wb.save(RTM_FILE)
+print(f"Updated {RTM_FILE} with {len(all_entries)} entries "
+      f"({len(url_entries)} URL mappings + {len(controller_entries)} controller mappings).")
