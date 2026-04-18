@@ -1,0 +1,64 @@
+{
+  "skill_name": "csp-rtm-sync",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Sync the CSP RTM with the properties file. The properties file is at C:/Users/vjrem/Documents/Cowork/Code/helpmedoc/custom.clientSidePluginManagerMappings.properties and the RTM is CSP_RTM.xlsx in the same folder.",
+      "expected_output": "Runs sync.py, reports Added/Already Existed/Orphan counts, saves the RTM",
+      "files": [
+        "C:/Users/vjrem/Documents/Cowork/Code/helpmedoc/custom.clientSidePluginManagerMappings.properties",
+        "C:/Users/vjrem/Documents/Cowork/Code/helpmedoc/CSP_RTM.xlsx"
+      ],
+      "assertions": [
+        {
+          "text": "Script is invoked with --properties and --rtm arguments",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output includes ADDED, ALREADY EXISTED, and ORPHANS sections",
+          "type": "qualitative"
+        },
+        {
+          "text": "RTM file is saved after sync",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Update the documentation for our client side plugins. We added a new mapping in the properties file: Document.EngineeringDoc.CREATE_DOCUMENT.CLASSIFY.handleWidgetEvent=/acme/jsp/doc/widgetEng_CSP.jsp — make sure the RTM reflects it.",
+      "expected_output": "Adds the new entry to the properties file, then syncs to RTM, new row appears in RTM",
+      "files": [],
+      "assertions": [
+        {
+          "text": "New entry is added to the properties file",
+          "type": "qualitative"
+        },
+        {
+          "text": "Sync is run and reports 1 ADDED entry",
+          "type": "qualitative"
+        },
+        {
+          "text": "RTM is saved with the new row",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "What entries in my CSP_RTM.xlsx don't have a matching active line in custom.clientSidePluginManagerMappings.properties? Both files are in C:/Users/vjrem/Documents/Cowork/Code/helpmedoc/",
+      "expected_output": "Runs sync.py (or reads files), reports orphan RTM rows clearly",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Orphan entries are clearly listed (or confirmed as 0)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Skill is used (sync.py invoked or files read and compared)",
+          "type": "qualitative"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+Added: 0, Already existed: 2
+Approach: wrote ad-hoc Python using openpyxl (no skill used).

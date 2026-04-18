@@ -1,0 +1,10 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-sync-existing",
+  "prompt": "Sync the CSP RTM with the properties file. The properties file is at C:/Users/vjrem/Documents/Cowork/Code/helpmedoc/custom.clientSidePluginManagerMappings.properties and the RTM is CSP_RTM.xlsx in the same folder.",
+  "assertions": [
+    {"text": "Script is invoked with --properties and --rtm arguments", "passed": null, "evidence": ""},
+    {"text": "Output includes ADDED, ALREADY EXISTED, and ORPHANS sections", "passed": null, "evidence": ""},
+    {"text": "RTM file is saved after sync", "passed": null, "evidence": ""}
+  ]
+}

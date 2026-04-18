@@ -1,0 +1,10 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-new-entry",
+  "prompt": "Update the documentation for our client side plugins. We added a new mapping in the properties file: Document.EngineeringDoc.CREATE_DOCUMENT.CLASSIFY.handleWidgetEvent=/acme/jsp/doc/widgetEng_CSP.jsp — make sure the RTM reflects it.",
+  "assertions": [
+    {"text": "New entry is added to the properties file", "passed": null, "evidence": ""},
+    {"text": "Sync is run and reports 1 ADDED entry", "passed": null, "evidence": ""},
+    {"text": "RTM is saved with the new row", "passed": null, "evidence": ""}
+  ]
+}

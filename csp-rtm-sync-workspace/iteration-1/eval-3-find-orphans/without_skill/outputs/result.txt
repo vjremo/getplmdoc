@@ -1,0 +1,3 @@
+Orphans found: 1
+  Sample.Part.OldType.CREATE_PART.CLASSIFY.onLoadEvent
+Approach: ad-hoc Python, no skill used.

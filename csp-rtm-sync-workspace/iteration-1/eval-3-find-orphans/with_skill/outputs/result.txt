@@ -1,0 +1,11 @@
+
+ADDED (0):
+
+ALREADY EXISTED (2):
+  Sample.Product.TestingRequest.CREATE_TESTING_REQUEST.CLASSIFY.onLoadEvent
+  Sample.Material.TestingRequest.CREATE_TESTING_REQUEST.CLASSIFY.onLoadEvent
+
+ORPHANS in RTM (no matching active properties entry) (1):
+  Sample.Part.OldType.CREATE_PART.CLASSIFY.onLoadEvent
+
+Done. RTM saved to: C:/Users/vjrem/AppData/Local/Temp/CSP_RTM_eval3_with.xlsx

@@ -1,0 +1,22 @@
+{
+  "eval_id": 3,
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Orphan entries are clearly listed (or confirmed as 0)",
+      "passed": true,
+      "evidence": "Orphans found: 1 \u00e2\u20ac\u201d Sample.Part.OldType.CREATE_PART.CLASSIFY.onLoadEvent"
+    },
+    {
+      "text": "Skill is used (sync.py invoked or files read and compared)",
+      "passed": false,
+      "evidence": "Ad-hoc Python script written inline; no reusable script or skill invoked"
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

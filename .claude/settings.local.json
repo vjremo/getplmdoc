@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/vjrem/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/a3663d78-f1c0-4004-9a77-bc49f4658539/0e0bf3a7-99d6-4857-9f01-3c540489da28/skills/xlsx/**)",
+      "Bash(python -c \"import openpyxl; print\\('openpyxl ok'\\)\")"
+    ]
+  }
+}
