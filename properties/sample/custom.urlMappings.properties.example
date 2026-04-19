@@ -1,0 +1,25 @@
+////////////////////////////////////////////////////////////////
+// CONFIGURABLE HOME PAGE. Cabelas logo
+
+COMPANY_IMAGE=/cabelas/images/Cabela's Logo - WFO.PNG
+
+
+// CUSTOM BOM PAGES
+////////////////////////////////////////////////////////////////
+VIEW_BOM=/cabelas/jsp/flexbom/ViewBOM.jsp
+SIDE_MENU=/cabelas/jsp/main/SideMenu.jsp
+FIND_MATERIAL_FORECAST_REPORT=/cabelas/jsp/reports/CabMaterialForecastReportsInputPage.jsp
+MUR_FORECAST_REPORT_RESULTS=/cabelas/jsp/reports/CabMaterialForecastReportResults.jsp
+VIEW_SEASON_PLANNING_PAGE=/cabelas/jsp/season/ViewPlanning.jsp
+VIEW_PLAN_DATA_PAGE=/cabelas/jsp/planning/ViewPlanTable.jsp
+SAMPLES_PLUGIN=/cabelas/jsp/samples/SamplesPlugin.jsp
+MEASUREMENTS_LIBRARY_TEMPLATES=/cabelas/jsp/measurements/MeasurementsLibraryTemplates.jsp
+MEASUREMENTS_LIBRARY_GRADINGS=/cabelas/jsp/measurements/MeasurementsLibraryGradings.jsp
+MEASUREMENTS_LIBRARY_MEASUREMENTS=/cabelas/jsp/measurements/MeasurementsLibraryMeasurements.jsp
+
+
+###################PRODUCT SAMPLE DASHBOARD-CPS#########################################
+PRODUCT_SAMPLE_SUMMARY_VIEW=/cabelas/jsp/samples/CPSProductSampleSummary.jsp
+###########################DOCUMENT SUMMARY DASHBOARD-CPS#################################
+DOCUMENT_SUMMARY_VIEW=/cabelas/jsp/document/CPSDocumentSummary.jsp
+##################################################################

@@ -1,0 +1,8 @@
+MATERIAL_FORECAST_REPORT_CONTROLLER=/cabelas/jsp/reports/CabMaterialForecastReportsController.jsp
+PLAN_LOAD_CSV_CONTROLLER=/cabelas/jsp/load/CsvLoadFileController.jsp
+
+#######DASHBOARD CONTROLLER-SAMPLE-CPS##########################################
+SAMPLE_SUMMARY_CONTROLLER=/cabelas/jsp/samples/CPSSampleSummaryController.jsp
+#######DASHBOARD CONTROLLER-DOCUMENT-CPS##########################################
+DOCUMENT_SUMMARY_CONTROLLER=/cabelas/jsp/document/CPSDocumentSummaryController.jsp
+#################################################
