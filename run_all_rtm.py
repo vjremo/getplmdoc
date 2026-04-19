@@ -29,6 +29,9 @@ def section(title):
     print(f"{'='*60}", flush=True)
 
 
+SKIPPED = None  # sentinel returned by runners when input files are absent
+
+
 def run(cmd, cwd=BASE_DIR):
     result = subprocess.run(cmd, cwd=cwd)
     if result.returncode != 0:
@@ -36,8 +39,23 @@ def run(cmd, cwd=BASE_DIR):
     return result.returncode
 
 
+def _skip(label: str, missing: list[Path]) -> None:
+    for f in missing:
+        print(f"  [SKIP] Required file not found: {f}", flush=True)
+    print(f"  [SKIP] {label} — skipped.", flush=True)
+    return SKIPPED
+
+
 def run_lcs(args):
     section("LCS RTM")
+    if args.lcs_input:
+        missing = [Path(f) for f in args.lcs_input if not Path(f).exists()]
+        if missing:
+            return _skip("LCS RTM", missing)
+    else:
+        found = sorted((BASE_DIR / "properties").glob("*.properties"))
+        if not found:
+            return _skip("LCS RTM", [BASE_DIR / "properties" / "*.properties"])
     cmd = [sys.executable, str(SCRIPTS["lcs"]), "-o", args.lcs_output]
     if args.lcs_input:
         cmd += args.lcs_input
@@ -48,11 +66,23 @@ def run_lcs(args):
 
 def run_jsp(args):
     section("JSP RTM")
+    props = args.work_dir / "properties"
+    required = [
+        props / "custom.urlMappings.properties",
+        props / "custom.activityControllerMappings.properties",
+        props / "custom.controllerAliases.properties",
+    ]
+    present = [f for f in required if f.exists()]
+    if not present:
+        return _skip("JSP RTM", required)
     return run([sys.executable, str(SCRIPTS["jsp"])], cwd=args.work_dir)
 
 
 def run_csp(args):
     section("CSP RTM")
+    props_file = Path(args.csp_properties)
+    if not props_file.exists():
+        return _skip("CSP RTM", [props_file])
     cmd = [
         sys.executable, str(SCRIPTS["csp"]),
         "--properties", args.csp_properties,
@@ -63,6 +93,14 @@ def run_csp(args):
 
 def run_techpack(args):
     section("Techpack RTM")
+    props = args.work_dir / "properties"
+    required = [
+        props / "ProductSpecification2.properties",
+        props / "ProductSpecificationBOM2.properties",
+    ]
+    missing = [f for f in required if not f.exists()]
+    if missing:
+        return _skip("Techpack RTM", missing)
     return run([sys.executable, str(SCRIPTS["techpack"])], cwd=args.work_dir)
 
 
@@ -209,20 +247,31 @@ def main():
     runners = {"lcs": run_lcs, "jsp": run_jsp, "csp": run_csp, "techpack": run_techpack}
 
     errors = 0
+    skipped = []
+    ran = []
     for name in scripts_to_run:
-        errors += runners[name](args) != 0
+        result = runners[name](args)
+        if result is SKIPPED:
+            skipped.append(name)
+        elif result != 0:
+            errors += 1
+            ran.append(name)
+        else:
+            ran.append(name)
 
-    print(f"\n{'='*60}")
+    print(f"\n{'='*60}", flush=True)
+    if skipped:
+        print(f"  Skipped : {', '.join(skipped)}")
     if errors:
         print(f"  Done with {errors} error(s).")
         sys.exit(1)
     else:
-        print("  All RTM scripts completed successfully.")
+        print(f"  Completed: {', '.join(ran) if ran else 'none'}")
 
-    if not args.no_combine:
+    if not args.no_combine and ran:
         output_paths = resolve_output_paths(args)
         combined_path = (BASE_DIR / args.combined_output).resolve()
-        merge_rtm(scripts_to_run, output_paths, combined_path)
+        merge_rtm(ran, output_paths, combined_path)
 
 
 if __name__ == "__main__":
