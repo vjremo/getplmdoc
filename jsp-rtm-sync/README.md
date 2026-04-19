@@ -20,7 +20,7 @@ Controller entries are resolved end-to-end (`Activity Key → Alias → JSP path
 
 Ask Claude:
 > "Read the properties files and update documentation"
-> "Sync the JSP RTM"
+> "Sync the JSP"
 > "What's in the RTM vs the properties files?"
 
 Claude will invoke this skill automatically.

@@ -20,7 +20,7 @@ Download `csp-rtm-sync.skill` and install it in Claude Code via **Settings → S
 ## Usage
 
 Say things like:
-- "Sync the CSP RTM with the properties file"
+- "Sync the CSP with the properties file"
 - "Update documentation for our client side plugins"
 - "What entries in CSP_RTM.xlsx are missing from the properties file?"
 

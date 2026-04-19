@@ -63,7 +63,7 @@ def write_rtm(rows: list[dict], out_path: Path, template: Path | None = None) ->
     else:
         wb = openpyxl.Workbook()
         ws = wb.active
-        ws.title = "SSP RTM"
+        ws.title = "SSP"
         ws.append(HEADERS)
         for i, w in enumerate(COL_WIDTHS, start=1):
             ws.column_dimensions[openpyxl.utils.get_column_letter(i)].width = w

@@ -47,14 +47,14 @@ jobs:
             --ssp-output /tmp/SSP.xlsx \
             --csp-properties properties/custom.clientSidePluginManagerMappings.properties \
             --csp-rtm /tmp/CSP.xlsx \
-            --combined-output /tmp/RTM_Combined.xlsx
+            --combined-output /tmp/CustomizationReport.xlsx
 
       - name: Verify combined workbook has expected sheets
         run: |
           python - <<'EOF'
           import openpyxl
-          wb = openpyxl.load_workbook("/tmp/RTM_Combined.xlsx")
-          expected = {"SSP RTM", "JSP RTM", "CSP RTM", "Techpack RTM"}
+          wb = openpyxl.load_workbook("/tmp/CustomizationReport.xlsx")
+          expected = {"SSP", "JSP", "CSP", "Techpack"}
           actual = set(wb.sheetnames)
           missing = expected - actual
           if missing:

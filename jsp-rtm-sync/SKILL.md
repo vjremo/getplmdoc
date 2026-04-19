@@ -4,7 +4,7 @@ description: "Synchronize a JSP Requirements Traceability Matrix (RTM) Excel fil
 license: MIT
 ---
 
-# JSP RTM Sync Skill
+# JSP Sync Skill
 
 ## Overview
 

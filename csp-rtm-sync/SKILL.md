@@ -9,7 +9,7 @@ description: >
   says things like "keep the RTM in sync", "document my plugins", or "what's missing from the RTM".
 ---
 
-# CSP RTM Sync
+# CSP Sync
 
 ## What this skill does
 

@@ -1,6 +1,6 @@
 # getplmdoc
 
-Automation suite for PTC Retail PLM/FlexPLM Application. Parses `.properties` configuration files and generates styled Excel files for SSP plugins, JSP/URL mappings, CSP client-side plugins, and Techpack product specs.
+Automation suite to Report enhancements on PTC Retail PLM/FlexPLM Application. Parses `.properties` configuration files and generates styled Excel file report for SSP plugins, JSP/URL mappings, CSP client-side plugins, and Techpack.
 
 ## Prerequisites
 
@@ -25,7 +25,7 @@ cp properties/sample/custom.lcs.plugins.properties.example properties/custom.lcs
 python run_all_rtm.py
 ```
 
-This generates four individual RTM files and a combined workbook `RTM_Combined.xlsx` with one sheet per module.
+This generates four individual RTM files and a combined workbook `CustomizationReport.xlsx` with one sheet per module.
 
 3. Or run a specific module:
 
@@ -41,7 +41,7 @@ python run_all_rtm.py --only jsp csp
 | SSP | `ssp-rtm-sync/ssp.py` | `custom.lcs.plugins.properties` | `SSP.xlsx` |
 | JSP | `jsp-rtm-sync/scripts/jsp.py` | `custom.urlMappings.properties`, `custom.activityControllerMappings.properties`, `custom.controllerAliases.properties` | `JSP.xlsx` |
 | CSP | `csp-rtm-sync/scripts/csp.py` | `custom.clientSidePluginManagerMappings.properties` | `CSP.xlsx` |
-| Techpack | `techpack-rtm-sync/techpack.py` | `ProductSpecification2.properties`, `ProductSpecificationBOM2.properties` | `Techpack.xlsx` |
+| Techpack | `techpack-rtm-sync/techpack.py` | `ProductSpecification2.properties`, `ProductSpecificationBOM2.properties` , `ProductSpecificationMeasure2.properties` | `Techpack.xlsx` |
 
 Each module has its own `README.md` with output column definitions and properties file format details.
 
@@ -60,7 +60,7 @@ python run_all_rtm.py [options]
 | Option | Default | Description |
 |---|---|---|
 | `--only ssp jsp csp techpack` | all | Run only the specified module(s) |
-| `--combined-output FILE` | `RTM_Combined.xlsx` | Path for the merged all-in-one workbook |
+| `--combined-output FILE` | `CustomizationReport.xlsx` | Path for the merged all-in-one workbook |
 | `--no-combine` | — | Skip generating the combined workbook |
 | `--ssp-input FILE [FILE ...]` | `properties/*.properties` | Explicit input file(s) for SSP |
 | `--ssp-output FILE` | `SSP.xlsx` | SSP output path |

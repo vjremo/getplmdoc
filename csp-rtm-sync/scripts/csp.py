@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sync a CSP .properties file with a CSP RTM Excel file."""
+"""Sync a CSP .properties file with a CSP Excel file."""
 
 import argparse
 import os

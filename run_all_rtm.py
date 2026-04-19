@@ -16,9 +16,9 @@ SCRIPTS = {
 
 # Sheet name used in the combined workbook for each module
 SHEET_NAMES = {
-    "ssp":      "SSP RTM",
-    "jsp":      "JSP RTM",
-    "csp":      "CSP RTM",
+    "ssp":      "SSP",
+    "jsp":      "JSP",
+    "csp":      "CSP",
     "techpack": "Techpack RTM",
 }
 
@@ -47,15 +47,15 @@ def _skip(label: str, missing: list[Path]) -> None:
 
 
 def run_ssp(args):
-    section("SSP RTM")
+    section("SSP")
     if args.ssp_input:
         missing = [Path(f) for f in args.ssp_input if not Path(f).exists()]
         if missing:
-            return _skip("SSP RTM", missing)
+            return _skip("SSP", missing)
     else:
         found = sorted((BASE_DIR / "properties").glob("*.properties"))
         if not found:
-            return _skip("SSP RTM", [BASE_DIR / "properties" / "*.properties"])
+            return _skip("SSP", [BASE_DIR / "properties" / "*.properties"])
     cmd = [sys.executable, str(SCRIPTS["ssp"]), "-o", args.ssp_output]
     if args.ssp_input:
         cmd += args.ssp_input
@@ -65,7 +65,7 @@ def run_ssp(args):
 
 
 def run_jsp(args):
-    section("JSP RTM")
+    section("JSP")
     props = args.work_dir / "properties"
     required = [
         props / "custom.urlMappings.properties",
@@ -74,15 +74,15 @@ def run_jsp(args):
     ]
     present = [f for f in required if f.exists()]
     if not present:
-        return _skip("JSP RTM", required)
+        return _skip("JSP", required)
     return run([sys.executable, str(SCRIPTS["jsp"])], cwd=args.work_dir)
 
 
 def run_csp(args):
-    section("CSP RTM")
+    section("CSP")
     props_file = Path(args.csp_properties)
     if not props_file.exists():
-        return _skip("CSP RTM", [props_file])
+        return _skip("CSP", [props_file])
     cmd = [
         sys.executable, str(SCRIPTS["csp"]),
         "--properties", args.csp_properties,
@@ -97,6 +97,7 @@ def run_techpack(args):
     required = [
         props / "ProductSpecification2.properties",
         props / "ProductSpecificationBOM2.properties",
+		props / "ProductSpecificationMeasure2.properties",
     ]
     missing = [f for f in required if not f.exists()]
     if missing:
@@ -212,8 +213,8 @@ def main():
         help="Working directory for JSP and Techpack scripts (default: project root)",
     )
     parser.add_argument(
-        "--combined-output", default="RTM_Combined.xlsx",
-        metavar="FILE", help="Output path for the combined RTM workbook (default: RTM_Combined.xlsx)",
+        "--combined-output", default="CustomizationReport.xlsx",
+        metavar="FILE", help="Output path for the combined RTM workbook (default: CustomizationReport.xlsx)",
     )
     parser.add_argument(
         "--no-combine", action="store_true",
@@ -221,7 +222,7 @@ def main():
     )
 
     # SSP options
-    ssp_group = parser.add_argument_group("SSP RTM (ssp-rtm-sync/ssp.py)")
+    ssp_group = parser.add_argument_group("SSP (ssp-rtm-sync/ssp.py)")
     ssp_group.add_argument("--ssp-input", nargs="*", default=[],
                            metavar="FILE",
                            help="SSP .properties input file(s). Defaults to all *.properties in properties/ folder.")
@@ -231,7 +232,7 @@ def main():
                            metavar="FILE", help="Optional existing SSP.xlsx to use as template")
 
     # CSP options
-    csp_group = parser.add_argument_group("CSP RTM (csp-rtm-sync/scripts/csp.py)")
+    csp_group = parser.add_argument_group("CSP (csp-rtm-sync/scripts/csp.py)")
     csp_group.add_argument(
         "--csp-properties",
         default="properties/custom.clientSidePluginManagerMappings.properties",
