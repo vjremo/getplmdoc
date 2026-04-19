@@ -7,7 +7,6 @@ import sys
 from copy import copy
 
 try:
-    import openpyxl
     from openpyxl import load_workbook, Workbook
 except ImportError:
     print("ERROR: openpyxl is not installed. Run: pip install openpyxl")
