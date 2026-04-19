@@ -19,7 +19,7 @@ SHEET_NAMES = {
     "ssp":      "SSP",
     "jsp":      "JSP",
     "csp":      "CSP",
-    "techpack": "Techpack RTM",
+    "techpack": "Techpack",
 }
 
 
@@ -92,7 +92,7 @@ def run_csp(args):
 
 
 def run_techpack(args):
-    section("Techpack RTM")
+    section("Techpack")
     props = args.work_dir / "properties"
     required = [
         props / "ProductSpecification2.properties",
@@ -101,7 +101,7 @@ def run_techpack(args):
     ]
     missing = [f for f in required if not f.exists()]
     if missing:
-        return _skip("Techpack RTM", missing)
+        return _skip("Techpack", missing)
     return run([sys.executable, str(SCRIPTS["techpack"])], cwd=args.work_dir)
 
 
