@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Combined RTM runner: LCS, JSP, CSP, and Techpack."""
+"""Combined RTM runner: SSP, JSP, CSP, and Techpack."""
 
 import argparse
 import subprocess
@@ -8,7 +8,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).parent
 SCRIPTS = {
-    "lcs": BASE_DIR / "ssp-rtm-sync" / "ssp.py",
+    "ssp": BASE_DIR / "ssp-rtm-sync" / "ssp.py",
     "jsp": BASE_DIR / "jsp-rtm-sync" / "scripts" / "jsp.py",
     "csp": BASE_DIR / "csp-rtm-sync" / "scripts" / "csp.py",
     "techpack": BASE_DIR / "techpack-rtm-sync" / "techpack.py",
@@ -16,7 +16,7 @@ SCRIPTS = {
 
 # Sheet name used in the combined workbook for each module
 SHEET_NAMES = {
-    "lcs":      "SSP RTM",
+    "ssp":      "SSP RTM",
     "jsp":      "JSP RTM",
     "csp":      "CSP RTM",
     "techpack": "Techpack RTM",
@@ -46,21 +46,21 @@ def _skip(label: str, missing: list[Path]) -> None:
     return SKIPPED
 
 
-def run_lcs(args):
-    section("LCS RTM")
-    if args.lcs_input:
-        missing = [Path(f) for f in args.lcs_input if not Path(f).exists()]
+def run_ssp(args):
+    section("SSP RTM")
+    if args.ssp_input:
+        missing = [Path(f) for f in args.ssp_input if not Path(f).exists()]
         if missing:
-            return _skip("LCS RTM", missing)
+            return _skip("SSP RTM", missing)
     else:
         found = sorted((BASE_DIR / "properties").glob("*.properties"))
         if not found:
-            return _skip("LCS RTM", [BASE_DIR / "properties" / "*.properties"])
-    cmd = [sys.executable, str(SCRIPTS["lcs"]), "-o", args.lcs_output]
-    if args.lcs_input:
-        cmd += args.lcs_input
-    if args.lcs_template:
-        cmd += ["-t", args.lcs_template]
+            return _skip("SSP RTM", [BASE_DIR / "properties" / "*.properties"])
+    cmd = [sys.executable, str(SCRIPTS["ssp"]), "-o", args.ssp_output]
+    if args.ssp_input:
+        cmd += args.ssp_input
+    if args.ssp_template:
+        cmd += ["-t", args.ssp_template]
     return run(cmd)
 
 
@@ -107,10 +107,10 @@ def run_techpack(args):
 def resolve_output_paths(args) -> dict[str, Path]:
     """Return the expected output file path for each module."""
     return {
-        "lcs":      (BASE_DIR / args.lcs_output).resolve(),
-        "jsp":      (args.work_dir / "JSP_RTM.xlsx").resolve(),
+        "ssp":      (BASE_DIR / args.ssp_output).resolve(),
+        "jsp":      (args.work_dir / "JSP.xlsx").resolve(),
         "csp":      (BASE_DIR / args.csp_rtm).resolve(),
-        "techpack": (args.work_dir / "Techpack_RTM.xlsx").resolve(),
+        "techpack": (args.work_dir / "Techpack.xlsx").resolve(),
     }
 
 
@@ -199,13 +199,13 @@ def merge_rtm(modules_run: list[str], output_paths: dict[str, Path], combined_pa
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Run all RTM update scripts: LCS, JSP, CSP, and Techpack."
+        description="Run all RTM update scripts: SSP, JSP, CSP, and Techpack."
     )
 
     parser.add_argument(
-        "--only", nargs="+", choices=["lcs", "jsp", "csp", "techpack"],
+        "--only", nargs="+", choices=["ssp", "jsp", "csp", "techpack"],
         metavar="SCRIPT",
-        help="Run only the specified scripts (default: all). Choices: lcs, jsp, csp, techpack",
+        help="Run only the specified scripts (default: all). Choices: ssp, jsp, csp, techpack",
     )
     parser.add_argument(
         "--work-dir", default=str(BASE_DIR),
@@ -220,15 +220,15 @@ def main():
         help="Skip generating the combined RTM workbook",
     )
 
-    # LCS options
-    lcs_group = parser.add_argument_group("LCS RTM (ssp-rtm-sync/ssp.py)")
-    lcs_group.add_argument("--lcs-input", nargs="*", default=[],
+    # SSP options
+    ssp_group = parser.add_argument_group("SSP RTM (ssp-rtm-sync/ssp.py)")
+    ssp_group.add_argument("--ssp-input", nargs="*", default=[],
                            metavar="FILE",
-                           help="LCS .properties input file(s). Defaults to all *.properties in properties/ folder.")
-    lcs_group.add_argument("--lcs-output", default="SSP_RTM.xlsx",
-                           metavar="FILE", help="LCS RTM output .xlsx file (default: SSP_RTM.xlsx)")
-    lcs_group.add_argument("--lcs-template", default=None,
-                           metavar="FILE", help="Optional existing SSP_RTM.xlsx to use as template")
+                           help="SSP .properties input file(s). Defaults to all *.properties in properties/ folder.")
+    ssp_group.add_argument("--ssp-output", default="SSP.xlsx",
+                           metavar="FILE", help="SSP output .xlsx file (default: SSP.xlsx)")
+    ssp_group.add_argument("--ssp-template", default=None,
+                           metavar="FILE", help="Optional existing SSP.xlsx to use as template")
 
     # CSP options
     csp_group = parser.add_argument_group("CSP RTM (csp-rtm-sync/scripts/csp.py)")
@@ -237,14 +237,14 @@ def main():
         default="properties/custom.clientSidePluginManagerMappings.properties",
         metavar="FILE", help="CSP .properties input file",
     )
-    csp_group.add_argument("--csp-rtm", default="CSP_RTM.xlsx",
-                           metavar="FILE", help="CSP RTM .xlsx file (default: CSP_RTM.xlsx)")
+    csp_group.add_argument("--csp-rtm", default="CSP.xlsx",
+                           metavar="FILE", help="CSP .xlsx file (default: CSP.xlsx)")
 
     args = parser.parse_args()
     args.work_dir = Path(args.work_dir).resolve()
 
-    scripts_to_run = args.only or ["lcs", "jsp", "csp", "techpack"]
-    runners = {"lcs": run_lcs, "jsp": run_jsp, "csp": run_csp, "techpack": run_techpack}
+    scripts_to_run = args.only or ["ssp", "jsp", "csp", "techpack"]
+    runners = {"ssp": run_ssp, "jsp": run_jsp, "csp": run_csp, "techpack": run_techpack}
 
     errors = 0
     skipped = []

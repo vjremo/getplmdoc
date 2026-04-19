@@ -83,12 +83,12 @@ def write_rtm(rows: list[dict], out_path: Path, template: Path | None = None) ->
 
 
 def main():
-    parser = argparse.ArgumentParser(description="LCS plugins.properties → SSP_RTM.xlsx")
+    parser = argparse.ArgumentParser(description="SSP plugins.properties → SSP.xlsx")
     parser.add_argument("input", nargs="*", default=[],
                         help="Path(s) to .properties file(s). Defaults to all *.properties in cwd.")
-    parser.add_argument("-o", "--output", default="SSP_RTM.xlsx", help="Output .xlsx path")
+    parser.add_argument("-o", "--output", default="SSP.xlsx", help="Output .xlsx path")
     parser.add_argument("-t", "--template", default=None,
-                        help="Optional existing SSP_RTM.xlsx to use as template")
+                        help="Optional existing SSP.xlsx to use as template")
     args = parser.parse_args()
 
     inputs = args.input or sorted((Path(".") / "properties").glob("*.properties"))

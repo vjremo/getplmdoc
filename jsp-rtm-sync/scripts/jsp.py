@@ -3,7 +3,7 @@ import openpyxl
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
-RTM_FILE = 'JSP_RTM.xlsx'
+RTM_FILE = 'JSP.xlsx'
 PROPS_DIR = 'properties'
 URL_MAPPINGS = f'{PROPS_DIR}/custom.urlMappings.properties'
 ACTIVITY_MAPPINGS = f'{PROPS_DIR}/custom.activityControllerMappings.properties'

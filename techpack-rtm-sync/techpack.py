@@ -3,7 +3,7 @@ import openpyxl
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
-RTM_FILE = 'Techpack_RTM.xlsx'
+RTM_FILE = 'Techpack.xlsx'
 PROPS_DIR = 'properties'
 
 def parse_properties(filepath):
@@ -58,6 +58,6 @@ ws.column_dimensions['A'].width = 45
 ws.column_dimensions['B'].width = 65
 
 wb.save(RTM_FILE)
-print(f"Updated Techpack_RTM.xlsx with {len(entries)} entries.")
+print(f"Updated Techpack.xlsx with {len(entries)} entries.")
 for k, v in entries:
     print(f"  {k} => {v}")
