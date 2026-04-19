@@ -40,20 +40,24 @@ jobs:
             cp "$f" "properties/$(basename "${f%.example}")"
           done
 
-      - name: Smoke test - LCS
+      - name: Smoke test - individual modules + combined output
         run: |
-          python run_all_rtm.py --only lcs \
+          python run_all_rtm.py \
             --lcs-input ssp-rtm-sync/sample/custom.lcs.plugins.properties.example \
-            --lcs-output /tmp/SSP_RTM.xlsx
-
-      - name: Smoke test - JSP
-        run: python run_all_rtm.py --only jsp
-
-      - name: Smoke test - CSP
-        run: |
-          python run_all_rtm.py --only csp \
+            --lcs-output /tmp/SSP_RTM.xlsx \
             --csp-properties properties/custom.clientSidePluginManagerMappings.properties \
-            --csp-rtm /tmp/CSP_RTM.xlsx
+            --csp-rtm /tmp/CSP_RTM.xlsx \
+            --combined-output /tmp/RTM_Combined.xlsx
 
-      - name: Smoke test - Techpack
-        run: python run_all_rtm.py --only techpack
+      - name: Verify combined workbook has expected sheets
+        run: |
+          python - <<'EOF'
+          import openpyxl
+          wb = openpyxl.load_workbook("/tmp/RTM_Combined.xlsx")
+          expected = {"SSP RTM", "JSP RTM", "CSP RTM", "Techpack RTM"}
+          actual = set(wb.sheetnames)
+          missing = expected - actual
+          if missing:
+              raise SystemExit(f"Combined RTM missing sheets: {missing}")
+          print(f"OK — sheets present: {sorted(actual)}")
+          EOF

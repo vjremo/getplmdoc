@@ -30,7 +30,7 @@ else:
     wb = Workbook()
     ws = wb.active
     ws.title = 'Techpack RTM'
-    ws.append(['Property Key', 'Value'])
+    ws.append(['Property Key', 'Class'])
 
 thin = Side(style='thin', color='000000')
 border = Border(left=thin, right=thin, top=thin, bottom=thin)

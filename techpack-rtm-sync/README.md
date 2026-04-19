@@ -36,7 +36,7 @@ Standard Java `.properties` key-value format:
 
 ```
 # This is a comment — ignored
-HEADER=com.cabelas.wc.product.CabPDFProductSpecificationHeader
+HEADER=com.xyz.wc.product.XYZPDFProductSpecificationHeader
 Construction=com.lcs.wc.product.PDFProductSpecificationConstruction2|orientation=LANDSCAPE
 ```
 
@@ -52,7 +52,7 @@ Writes `Techpack_RTM.xlsx` in the working directory. If the file already exists,
 | Column | Description |
 |---|---|
 | Property Key | The key from the `.properties` file (e.g. `Construction`) |
-| Value | The value from the `.properties` file (e.g. `com.cabelas.wc.product...`) |
+| Class | The value from the `.properties` file (e.g. `com.xyz.wc.product...`) |
 
 ### Formatting
 

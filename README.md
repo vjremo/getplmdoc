@@ -25,6 +25,8 @@ cp properties/sample/custom.lcs.plugins.properties.example properties/custom.lcs
 python run_all_rtm.py
 ```
 
+This generates four individual RTM files and a combined workbook `RTM_Combined.xlsx` with one sheet per module.
+
 3. Or run a specific module:
 
 ```bash
@@ -58,9 +60,11 @@ python run_all_rtm.py [options]
 | Option | Default | Description |
 |---|---|---|
 | `--only lcs jsp csp techpack` | all | Run only the specified module(s) |
+| `--combined-output FILE` | `RTM_Combined.xlsx` | Path for the merged all-in-one workbook |
+| `--no-combine` | — | Skip generating the combined workbook |
 | `--lcs-input FILE [FILE ...]` | `properties/*.properties` | Explicit input file(s) for LCS |
-| `--lcs-output FILE` | `RTM.xlsx` | LCS output path |
-| `--lcs-template FILE` | — | Existing `RTM.xlsx` to reuse for formatting |
+| `--lcs-output FILE` | `SSP_RTM.xlsx` | LCS output path |
+| `--lcs-template FILE` | — | Existing `SSP_RTM.xlsx` to reuse for formatting |
 | `--csp-properties FILE` | `properties/custom.clientSidePluginManagerMappings.properties` | CSP input file |
 | `--csp-rtm FILE` | `CSP_RTM.xlsx` | CSP RTM path |
 | `--work-dir DIR` | project root | Working directory for JSP and Techpack |

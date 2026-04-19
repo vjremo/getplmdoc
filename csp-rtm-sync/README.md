@@ -27,7 +27,7 @@ Say things like:
 ## Properties file format
 
 ```
-Sample.Product.TestingRequest.CREATE_TESTING_REQUEST.CLASSIFY.onLoadEvent = /cabelas/jsp/samples/CPSRequestedByTestingSample_OnLoad.jsp
+Sample.Product.TestingRequest.CREATE_TESTING_REQUEST.CLASSIFY.onLoadEvent = /xyz/jsp/samples/XYZTestingSample_OnLoad.jsp
 ```
 
 Format: `<FlextypePath>.<Activity>.<Action>.<clientSidePluginType> = <jspFilePath>`
@@ -36,4 +36,4 @@ Format: `<FlextypePath>.<Activity>.<Action>.<clientSidePluginType> = <jspFilePat
 
 | FlextypePath | Activity | Action | Client Side Plugin Type | Client Side Plugin JSP File |
 |---|---|---|---|---|
-| Sample.Product.TestingRequest | CREATE_TESTING_REQUEST | CLASSIFY | onLoadEvent | /cabelas/jsp/... |
+| Sample.Product.TestingRequest | CREATE_TESTING_REQUEST | CLASSIFY | onLoadEvent | /xyz/jsp/... |
