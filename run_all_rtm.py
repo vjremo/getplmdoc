@@ -255,7 +255,6 @@ def main():
             skipped.append(name)
         elif result != 0:
             errors += 1
-            ran.append(name)
         else:
             ran.append(name)
 
