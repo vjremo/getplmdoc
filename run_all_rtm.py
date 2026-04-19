@@ -6,11 +6,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-try:
-    import openpyxl
-except ImportError:
-    openpyxl = None
-
 BASE_DIR = Path(__file__).parent
 SCRIPTS = {
     "lcs": BASE_DIR / "ssp-rtm-sync" / "ssp.py",
@@ -110,7 +105,9 @@ def _apply_uniform_style(ws) -> None:
 
 def merge_rtm(modules_run: list[str], output_paths: dict[str, Path], combined_path: Path) -> None:
     """Copy each module's RTM xlsx into one combined workbook with uniform styling."""
-    if openpyxl is None:
+    try:
+        import openpyxl
+    except ImportError:
         print("[SKIP] openpyxl not installed — combined RTM not generated.", file=sys.stderr)
         return
 
