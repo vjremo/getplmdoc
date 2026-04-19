@@ -21,7 +21,8 @@ def parse_properties(filepath):
     return entries
 
 entries = parse_properties(f'{PROPS_DIR}/ProductSpecification2.properties') + \
-          parse_properties(f'{PROPS_DIR}/ProductSpecificationBOM2.properties')
+          parse_properties(f'{PROPS_DIR}/ProductSpecificationBOM2.properties') + \
+		  parse_properties(f'{PROPS_DIR}/ProductSpecificationMeasure2.properties')
 
 if os.path.exists(RTM_FILE):
     wb = openpyxl.load_workbook(RTM_FILE)
@@ -29,7 +30,7 @@ if os.path.exists(RTM_FILE):
 else:
     wb = Workbook()
     ws = wb.active
-    ws.title = 'Techpack RTM'
+    ws.title = 'Techpack'
     ws.append(['Property Key', 'Class'])
 
 thin = Side(style='thin', color='000000')
