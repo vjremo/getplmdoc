@@ -1,9 +1,0 @@
-{
-  "eval_id": 3,
-  "eval_name": "eval-3-find-orphans",
-  "prompt": "What entries in my CSP_RTM.xlsx don't have a matching active line in custom.clientSidePluginManagerMappings.properties? Both files are in C:/Users/vjrem/Documents/Cowork/Code/helpmedoc/",
-  "assertions": [
-    {"text": "Orphan entries are clearly listed (or confirmed as 0)", "passed": null, "evidence": ""},
-    {"text": "Skill is used (sync.py invoked or files read and compared)", "passed": null, "evidence": ""}
-  ]
-}

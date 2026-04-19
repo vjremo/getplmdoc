@@ -1,2 +1,0 @@
-Added: 0
-Approach: ad-hoc Python, no skill used.
