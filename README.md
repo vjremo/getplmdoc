@@ -1,6 +1,6 @@
 # helpmedoc
 
-RTM (Requirements Traceability Matrix) automation suite for Windchill/PTC PLM systems. Parses `.properties` configuration files and generates styled Excel RTM files for LCS plugins, JSP/URL mappings, CSP client-side plugins, and Techpack product specs.
+RTM (Requirements Traceability Matrix) automation suite for Windchill/PTC PLM systems. Parses `.properties` configuration files and generates styled Excel RTM files for SSP plugins, JSP/URL mappings, CSP client-side plugins, and Techpack product specs.
 
 ## Prerequisites
 
@@ -30,7 +30,7 @@ This generates four individual RTM files and a combined workbook `RTM_Combined.x
 3. Or run a specific module:
 
 ```bash
-python run_all_rtm.py --only lcs
+python run_all_rtm.py --only ssp
 python run_all_rtm.py --only jsp csp
 ```
 
@@ -38,10 +38,10 @@ python run_all_rtm.py --only jsp csp
 
 | Module | Script | Input | Output |
 |---|---|---|---|
-| LCS | `ssp-rtm-sync/ssp.py` | `custom.lcs.plugins.properties` | `SSP_RTM.xlsx` |
-| JSP | `jsp-rtm-sync/scripts/jsp.py` | `custom.urlMappings.properties`, `custom.activityControllerMappings.properties`, `custom.controllerAliases.properties` | `JSP_RTM.xlsx` |
-| CSP | `csp-rtm-sync/scripts/csp.py` | `custom.clientSidePluginManagerMappings.properties` | `CSP_RTM.xlsx` |
-| Techpack | `techpack-rtm-sync/techpack.py` | `ProductSpecification2.properties`, `ProductSpecificationBOM2.properties` | `Techpack_RTM.xlsx` |
+| SSP | `ssp-rtm-sync/ssp.py` | `custom.lcs.plugins.properties` | `SSP.xlsx` |
+| JSP | `jsp-rtm-sync/scripts/jsp.py` | `custom.urlMappings.properties`, `custom.activityControllerMappings.properties`, `custom.controllerAliases.properties` | `JSP.xlsx` |
+| CSP | `csp-rtm-sync/scripts/csp.py` | `custom.clientSidePluginManagerMappings.properties` | `CSP.xlsx` |
+| Techpack | `techpack-rtm-sync/techpack.py` | `ProductSpecification2.properties`, `ProductSpecificationBOM2.properties` | `Techpack.xlsx` |
 
 Each module has its own `README.md` with output column definitions and properties file format details.
 
@@ -59,14 +59,14 @@ python run_all_rtm.py [options]
 
 | Option | Default | Description |
 |---|---|---|
-| `--only lcs jsp csp techpack` | all | Run only the specified module(s) |
+| `--only ssp jsp csp techpack` | all | Run only the specified module(s) |
 | `--combined-output FILE` | `RTM_Combined.xlsx` | Path for the merged all-in-one workbook |
 | `--no-combine` | — | Skip generating the combined workbook |
-| `--lcs-input FILE [FILE ...]` | `properties/*.properties` | Explicit input file(s) for LCS |
-| `--lcs-output FILE` | `SSP_RTM.xlsx` | LCS output path |
-| `--lcs-template FILE` | — | Existing `SSP_RTM.xlsx` to reuse for formatting |
+| `--ssp-input FILE [FILE ...]` | `properties/*.properties` | Explicit input file(s) for SSP |
+| `--ssp-output FILE` | `SSP.xlsx` | SSP output path |
+| `--ssp-template FILE` | — | Existing `SSP.xlsx` to reuse for formatting |
 | `--csp-properties FILE` | `properties/custom.clientSidePluginManagerMappings.properties` | CSP input file |
-| `--csp-rtm FILE` | `CSP_RTM.xlsx` | CSP RTM path |
+| `--csp-rtm FILE` | `CSP.xlsx` | CSP output path |
 | `--work-dir DIR` | project root | Working directory for JSP and Techpack |
 
 ## License
