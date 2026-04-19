@@ -1,6 +1,6 @@
-# helpmedoc
+# getplmdoc
 
-RTM (Requirements Traceability Matrix) automation suite for Windchill/PTC PLM systems. Parses `.properties` configuration files and generates styled Excel RTM files for SSP plugins, JSP/URL mappings, CSP client-side plugins, and Techpack product specs.
+Automation suite for PTC Retail PLM/FlexPLM Application. Parses `.properties` configuration files and generates styled Excel files for SSP plugins, JSP/URL mappings, CSP client-side plugins, and Techpack product specs.
 
 ## Prerequisites
 
